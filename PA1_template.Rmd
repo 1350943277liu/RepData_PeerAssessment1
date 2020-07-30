@@ -11,7 +11,8 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, cache = TRUE)
 
 ## Loading and preprocessing the data
 
-```{r, echo=FALSE}
+Download dataset if necessary.
+```{r}
 data_url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
 if (!file.exists("activity.csv")) {
         if (file.exists("activity.zip")) {
@@ -20,7 +21,7 @@ if (!file.exists("activity.csv")) {
         unzip("activity.zip")
 }
 ```
-
+Load needed package and dataset.
 ```{r, eval=FALSE}
 library(tidyverse)
 ```
@@ -41,7 +42,7 @@ daily_steps <- activity %>%
 daily_steps
 
 ggplot(daily_steps, aes(total_steps)) +
-        geom_histogram(binwidth = 1000) + 
+        geom_histogram() + 
         labs(title = "Daily Steps", x = "Steps", y = "Frequency")
 ```
 
@@ -64,6 +65,7 @@ ggplot(average_interval_steps, aes(interval, average_steps)) +
         
 ```
 
+Find the interval which contain max average steps.
 ```{r}
 average_interval_steps[which.max(average_interval_steps$average_steps),]
 ```
@@ -71,6 +73,66 @@ average_interval_steps[which.max(average_interval_steps$average_steps),]
 
 ## Imputing missing values
 
+### Calculate the total number of missing values in the dataset 
+```{r}
+table(is.na(activity$steps))
+```
+
+### Strategy for filling in all of the missing values in the dataset
+According to `daily_steps`, step data are missed in some whole days. We can simply fill the missing data in the with steps of `average_interval_steps`.
+
+
+### Create a new dataset with missing data filled
+```{r}
+na_date <- filter(daily_steps, is.na(total_steps))[["date"]]
+activity[is.na(activity$steps), "steps"] <- rep(average_interval_steps$average_steps, times = length(na_date))
+```
+Let's check NAs again
+```{r}
+table(is.na(activity$steps))
+```
+
+
+### Histogram of the total number of steps taken each day
+```{r}
+daily_steps <- activity %>%
+        group_by(date) %>%
+        summarise(total_steps = sum(steps))
+daily_steps
+
+ggplot(daily_steps, aes(total_steps)) +
+        geom_histogram() + 
+        labs(title = "Daily Steps", x = "Steps", y = "Frequency")
+```
+
+
+### Calculate the mean and median total number of steps taken per day
+```{r}
+mean(daily_steps$total_steps)
+median(daily_steps$total_steps)
+```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r}
+activity <- activity %>% 
+        mutate(day_of_week = weekdays(date))
+
+activity$day_of_week <- sub("Monday|Tuesday|Wednesday|Thursday|Friday", "weekday", activity$day_of_week)
+activity$day_of_week <- sub("Saturday|Sunday", "weekend", activity$day_of_week)
+
+```
+
+```{r}
+average_interval_steps <- activity %>%
+        group_by(interval, day_of_week) %>%
+        summarise(average_steps = mean(steps))
+average_interval_steps
+
+ggplot(average_interval_steps, aes(interval, average_steps, color = day_of_week)) + 
+        geom_line() +
+        labs(title = "Daily Acitivity Pattern", x = "Interval", y = "Average Steps") +
+        theme(legend.title=element_blank())
+
+```
+

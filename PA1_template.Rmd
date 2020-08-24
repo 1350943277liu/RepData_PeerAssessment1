@@ -114,6 +114,7 @@ median(daily_steps$total_steps)
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+Create a new variable indicating each observation is a weekday or weekend and plot activity pattern.
 ```{r}
 activity <- activity %>% 
         mutate(day_of_week = weekdays(date))
@@ -131,6 +132,7 @@ average_interval_steps
 
 ggplot(average_interval_steps, aes(interval, average_steps, color = day_of_week)) + 
         geom_line() +
+        facet_wrap(.~ day_of_week, nrow = 2) +
         labs(title = "Daily Acitivity Pattern", x = "Interval", y = "Average Steps") +
         theme(legend.title=element_blank())
 

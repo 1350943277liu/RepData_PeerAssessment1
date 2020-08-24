@@ -2,14 +2,14 @@
 title: "Reproducible Research: Peer Assessment 1"
 output: 
   html_document:
-    keep_md: true
+   keep_md: true
 ---
 
 
 
 ## Loading and preprocessing the data
 
-Download data set if necessary.
+Download dataset if necessary.
 
 ```r
 data_url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
@@ -88,7 +88,7 @@ ggplot(daily_steps, aes(total_steps)) +
 ## Warning: Removed 8 rows containing non-finite values (stat_bin).
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](figure/unnamed-chunk-4-1.png)<!-- -->
 
 ### Mean and median number of steps taken each day
 
@@ -121,7 +121,7 @@ ggplot(average_interval_steps, aes(interval, average_steps)) +
         labs(title = "Daily Acitivity Pattern", x = "Interval", y = "Average Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](figure/unnamed-chunk-6-1.png)<!-- -->
 
 Find the interval which contain max average steps.
 
@@ -206,7 +206,7 @@ ggplot(daily_steps, aes(total_steps)) +
         labs(title = "Daily Steps", x = "Steps", y = "Frequency")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](figure/unnamed-chunk-11-1.png)<!-- -->
 
 
 ### Calculate the mean and median total number of steps taken per day
@@ -273,5 +273,5 @@ ggplot(average_interval_steps, aes(interval, average_steps, color = day_of_week)
         theme(legend.title=element_blank())
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](figure/unnamed-chunk-14-1.png)<!-- -->
 

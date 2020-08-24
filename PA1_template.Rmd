@@ -2,16 +2,16 @@
 title: "Reproducible Research: Peer Assessment 1"
 output: 
   html_document:
-    keep_md: true
+   keep_md: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, cache = TRUE, fig.path='figure/')
 ```
 
 ## Loading and preprocessing the data
 
-Download data set if necessary.
+Download dataset if necessary.
 ```{r}
 data_url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
 if (!file.exists("activity.csv")) {

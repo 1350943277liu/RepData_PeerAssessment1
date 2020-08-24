@@ -9,7 +9,7 @@ output:
 
 ## Loading and preprocessing the data
 
-Download dataset if necessary.
+Download data set if necessary.
 
 ```r
 data_url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
